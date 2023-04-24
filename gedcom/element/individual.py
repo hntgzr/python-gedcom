@@ -243,18 +243,19 @@ class IndividualElement(Element):
 
     @deprecated
     def get_burial(self):
-        """Returns the burial data of a person formatted as a tuple: (`str` date, `str´ place, `list` sources)
+        """Returns the burial data of a person formatted as a tuple: (`str` date, `str´ place, `str´ notes, `list` sources)
         ::deprecated:: As of version 1.0.0 use `get_burial_data()` method instead
         :rtype: tuple
         """
         self.get_burial_data()
 
     def get_burial_data(self):
-        """Returns the burial data of a person formatted as a tuple: (`str` date, `str´ place, `list` sources)
+        """Returns the burial data of a person formatted as a tuple: (`str` date, `str´ place,, `str´ notes, `list` sources)
         :rtype: tuple
         """
         date = ""
         place = ""
+        notes = ""
         sources = []
 
         for child in self.get_child_elements():
@@ -267,10 +268,13 @@ class IndividualElement(Element):
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_PLACE:
                         place = childOfChild.get_value()
 
+                    if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_NOTES:
+                        place = childOfChild.get_value()
+                        
                     if childOfChild.get_tag() == gedcom.tags.GEDCOM_TAG_SOURCE:
                         sources.append(childOfChild.get_value())
 
-        return date, place, sources
+        return date, place, notes, sources
 
     @deprecated
     def get_census(self):
